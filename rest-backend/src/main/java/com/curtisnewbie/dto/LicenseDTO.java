@@ -11,5 +11,6 @@ package com.curtisnewbie.dto;
  * </p>
  */
 public class LicenseDTO {
-    String name;
+
+    public String name;
 }
