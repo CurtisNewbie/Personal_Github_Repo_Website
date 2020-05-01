@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
+import javax.json.bind.Jsonb;
+
+import com.curtisnewbie.dto.RepoDTO;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -38,6 +41,9 @@ public class GithubRepoFetcher {
     @RestClient
     protected GithubClient client;
 
+    @Inject
+    protected Jsonb jsonb;
+
     /**
      * Start a new thread on app startup to fetch and update repositories
      * repeatively in every N minutes.
@@ -52,8 +58,10 @@ public class GithubRepoFetcher {
             if (repoNames.size() == 0 && repoNames.get(0).trim().equals("*")) {
                 fetchAll();
             } else {
-                for (String repo : repoNames)
-                    fetch(repo);
+                // TODO: Fix this when implementation is done
+                // for (String repo : repoNames)
+                // fetch(repo);
+                fetch(repoNames.get(0));
             }
             try {
                 Thread.sleep(freqInMin * MIN);
@@ -70,7 +78,8 @@ public class GithubRepoFetcher {
      */
     void fetch(String repoName) {
         // TODO: finish implentation
-        logger.info(client.fetchRepo("curtisnewbie", repoName).readEntity(String.class));
+        String jsonStr = client.fetchRepo("curtisnewbie", repoName).readEntity(String.class);
+        logger.info(jsonb.fromJson(jsonStr, RepoDTO.class));
     }
 
     /**
