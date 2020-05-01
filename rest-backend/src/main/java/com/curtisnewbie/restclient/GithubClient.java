@@ -1,12 +1,16 @@
 package com.curtisnewbie.restclient;
 
+import java.util.List;
+import java.util.concurrent.CompletionStage;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+
+import com.curtisnewbie.dto.RepoDTO;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
@@ -30,12 +34,13 @@ public interface GithubClient {
     @Path("/users/{username}/repos")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response fetchAllRepos(@PathParam("username") String username);
+    public CompletionStage<List<RepoDTO>> fetchAllRepos(@PathParam("username") String username);
 
     @GET
     @Path("/repos/{username}/{repo}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response fetchRepo(@PathParam("username") String username, @PathParam("repo") String repoName);
+    public CompletionStage<RepoDTO> fetchRepo(@PathParam("username") String username,
+            @PathParam("repo") String repoName);
 
 }

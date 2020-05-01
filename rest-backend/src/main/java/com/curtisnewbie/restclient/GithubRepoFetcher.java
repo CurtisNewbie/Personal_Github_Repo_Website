@@ -6,8 +6,6 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.json.bind.Jsonb;
 
-import com.curtisnewbie.dto.RepoDTO;
-
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
@@ -78,8 +76,9 @@ public class GithubRepoFetcher {
      */
     void fetch(String repoName) {
         // TODO: finish implentation
-        String jsonStr = client.fetchRepo("curtisnewbie", repoName).readEntity(String.class);
-        logger.info(jsonb.fromJson(jsonStr, RepoDTO.class));
+        client.fetchRepo("curtisnewbie", repoName).thenAccept((repo) -> {
+            logger.info(repo);
+        });
     }
 
     /**
@@ -87,7 +86,9 @@ public class GithubRepoFetcher {
      */
     void fetchAll() {
         // TODO: finish implentation
-        logger.info(client.fetchAllRepos("curtisnewbie").readEntity(String.class));
+        client.fetchAllRepos("curtisnewbie").thenAccept((list) -> {
+            logger.info(list);
+        });
     }
 
     /**
