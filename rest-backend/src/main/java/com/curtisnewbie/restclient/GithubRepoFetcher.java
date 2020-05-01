@@ -52,19 +52,22 @@ public class GithubRepoFetcher {
     void onStart(@Observes StartupEvent ev) {
         logConfig();
         new Thread(() -> {
-            logger.info(String.format("Initialising %s", this.getClass().getName()));
-            if (repoNames.size() == 0 && repoNames.get(0).trim().equals("*")) {
-                fetchAll();
-            } else {
-                // TODO: Fix this when implementation is done
-                // for (String repo : repoNames)
-                // fetch(repo);
-                fetch(repoNames.get(0));
-            }
-            try {
-                Thread.sleep(freqInMin * MIN);
-            } catch (InterruptedException e) {
-                logger.error(e);
+
+            while (true) {
+                logger.info(String.format("Initialising %s", this.getClass().getName()));
+                if (repoNames.size() == 0 && repoNames.get(0).trim().equals("*")) {
+                    fetchAll();
+                } else {
+                    // TODO: Fix this when implementation is done
+                    // for (String repo : repoNames)
+                    // fetch(repo);
+                    fetch(repoNames.get(0));
+                }
+                try {
+                    Thread.sleep(freqInMin * MIN);
+                } catch (InterruptedException e) {
+                    logger.error(e);
+                }
             }
         }).start();
     }
