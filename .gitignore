@@ -24,3 +24,6 @@ hs_err_pid*
 
 # Quarkus related
 .factorypath
+
+# vscode 
+.vscode/
