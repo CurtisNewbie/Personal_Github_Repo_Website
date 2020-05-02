@@ -5,7 +5,6 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import javax.json.bind.Jsonb;
 
 import com.curtisnewbie.persistence.RepoRepository;
 import com.curtisnewbie.persistence.Repository;

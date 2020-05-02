@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
+import javax.validation.constraints.NotNull;
 
 import org.jboss.logging.Logger;
 
@@ -69,6 +70,32 @@ public class RepoRepository {
      */
     public List<Repository> getAllRepos() {
         TypedQuery<Repository> q = em.createQuery("SELECT r FROM Repository r", Repository.class);
+        return q.getResultList();
+    }
+
+    /**
+     * Get {@code Repository} by name
+     * 
+     * @param repoName name of the {@code Repository}
+     * @return {@code Repository} with the name
+     */
+    public Repository getRepoByName(@NotNull String repoName) {
+        TypedQuery<Repository> q = em.createQuery("SELECT r FROM Repository r WHERE name = :repoName",
+                Repository.class);
+        q.setParameter("repoName", repoName);
+        return q.getSingleResult();
+    }
+
+    /**
+     * Get list of {@code Repository}(s) by license
+     * 
+     * @param license name of the license
+     * @return {@code Repository} by name
+     */
+    public List<Repository> getReposByLicense(@NotNull String license) {
+        TypedQuery<Repository> q = em.createQuery("SELECT r FROM Repository r WHERE license_name = :license",
+                Repository.class);
+        q.setParameter("license", license);
         return q.getResultList();
     }
 }
