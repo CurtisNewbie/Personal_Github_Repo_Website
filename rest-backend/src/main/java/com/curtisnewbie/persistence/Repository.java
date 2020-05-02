@@ -25,43 +25,43 @@ import com.curtisnewbie.dto.RepoDTO;
 public class Repository {
 
     @Id
-    public Long id;
+    private Long id;
 
     @NotNull
     @Column(name = "repo_name")
-    public String name;
+    private String name;
 
     @NotNull
-    public String fullName;
+    private String fullName;
 
     @NotNull
     @Embedded
     @Valid
-    public Owner owner;
+    private Owner owner;
 
     @NotNull
     @Column(length = 500)
-    public String description;
+    private String description;
 
     @NotNull
-    public Date created_at;
+    private Date created_at;
 
     @NotNull
-    public Date updated_at;
+    private Date updated_at;
 
     @NotNull
-    public Date pushed_at;
+    private Date pushed_at;
 
     @NotNull
-    public Integer stargazers_count;
+    private Integer stargazers_count;
 
     @NotNull
     @Embedded
     @Valid
-    public License license;
+    private License license;
 
     @NotNull
-    public String language;
+    private String language;
 
     public Repository() {
 
