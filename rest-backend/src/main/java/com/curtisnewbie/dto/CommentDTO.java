@@ -1,6 +1,7 @@
 package com.curtisnewbie.dto;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * ------------------------------------
@@ -17,5 +18,5 @@ public class CommentDTO {
     public Long id;
     public String message;
     public Date timestamp;
-    public CommentDTO parentComment;
+    public List<CommentDTO> childComments;
 }

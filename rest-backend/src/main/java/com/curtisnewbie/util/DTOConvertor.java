@@ -43,7 +43,6 @@ public class DTOConvertor {
         d.stargazers_count = r.getStargazers_count();
         d.license = toDto(r.getLicense());
         d.language = r.getLanguage();
-        d.comments = toCommentDtoList(r.getComments());
         return d;
     }
 
@@ -74,7 +73,8 @@ public class DTOConvertor {
     }
 
     /**
-     * Convert {@code Comment} to {@code CommentDTO}
+     * Convert {@code Comment} to {@code CommentDTO} including its child
+     * {@code Comment} (in a recursive way).
      * 
      * @param c {@code Comment}
      * @return {@code CommentDTO}
@@ -84,7 +84,10 @@ public class DTOConvertor {
         d.id = c.getId();
         d.message = c.getMessage();
         d.timestamp = c.getTimestamp();
-        d.parentComment = toDto(c.getParentComment());
+        d.childComments = new ArrayList<>();
+        for (var cc : c.getChildComments()) {
+            d.childComments.add(toDto(cc));
+        }
         return d;
     }
 
@@ -98,20 +101,6 @@ public class DTOConvertor {
         List<RepoDTO> dtos = new ArrayList<>();
         for (var t : list)
             dtos.add(toDto(t));
-        return dtos;
-    }
-
-    /**
-     * Convert a list of {@code Comment}(s) to a list of {@code CommentDTO}
-     *
-     * @param list a list of {@code Comment}(s)
-     * @return a list of {@code CommentDTO}
-     */
-
-    public static List<CommentDTO> toCommentDtoList(List<Comment> list) {
-        List<CommentDTO> dtos = new ArrayList<>();
-        for (var d : list)
-            dtos.add(toDto(d));
         return dtos;
     }
 }
