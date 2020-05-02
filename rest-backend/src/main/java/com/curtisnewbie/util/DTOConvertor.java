@@ -3,9 +3,11 @@ package com.curtisnewbie.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.curtisnewbie.dto.CommentDTO;
 import com.curtisnewbie.dto.LicenseDTO;
 import com.curtisnewbie.dto.OwnerDTO;
 import com.curtisnewbie.dto.RepoDTO;
+import com.curtisnewbie.persistence.Comment;
 import com.curtisnewbie.persistence.License;
 import com.curtisnewbie.persistence.Owner;
 import com.curtisnewbie.persistence.Repository;
@@ -41,6 +43,7 @@ public class DTOConvertor {
         d.stargazers_count = r.getStargazers_count();
         d.license = toDto(r.getLicense());
         d.language = r.getLanguage();
+        d.comments = toCommentDtoList(r.getComments());
         return d;
     }
 
@@ -59,7 +62,7 @@ public class DTOConvertor {
     }
 
     /**
-     * Conver {@code License} to {@code LicenseDTO}
+     * Convert {@code License} to {@code LicenseDTO}
      * 
      * @param l {@code License}
      * @return {@code LicenseDTO}
@@ -71,16 +74,44 @@ public class DTOConvertor {
     }
 
     /**
+     * Convert {@code Comment} to {@code CommentDTO}
+     * 
+     * @param c {@code Comment}
+     * @return {@code CommentDTO}
+     */
+    public static CommentDTO toDto(Comment c) {
+        CommentDTO d = new CommentDTO();
+        d.id = c.getId();
+        d.message = c.getMessage();
+        d.timestamp = c.getTimestamp();
+        d.parentComment = toDto(c.getParentComment());
+        return d;
+    }
+
+    /**
      * Convert a list of {@code Repository}(s) to a list of {@code RepoDTO}
      * 
      * @param list a list of {@code Repository}(s)
      * @return a list of {@code RepoDTO}
      */
-    public static List<RepoDTO> convert(List<Repository> list) {
+    public static List<RepoDTO> toRepoDtoList(List<Repository> list) {
         List<RepoDTO> dtos = new ArrayList<>();
-        for (var t : list) {
+        for (var t : list)
             dtos.add(toDto(t));
-        }
+        return dtos;
+    }
+
+    /**
+     * Convert a list of {@code Comment}(s) to a list of {@code CommentDTO}
+     *
+     * @param list a list of {@code Comment}(s)
+     * @return a list of {@code CommentDTO}
+     */
+
+    public static List<CommentDTO> toCommentDtoList(List<Comment> list) {
+        List<CommentDTO> dtos = new ArrayList<>();
+        for (var d : list)
+            dtos.add(toDto(d));
         return dtos;
     }
 }

@@ -35,7 +35,7 @@ public class RepoResources {
     @GET
     @Path("/all")
     public void getAllRepos(@Suspended AsyncResponse asyncResp) {
-        asyncResp.resume(DTOConvertor.convert(rrepo.getAllRepos()));
+        asyncResp.resume(DTOConvertor.toRepoDtoList(rrepo.getAllRepos()));
     }
 
     @APIResponse(description = "Get a single Repository with the unique name")
@@ -49,6 +49,6 @@ public class RepoResources {
     @GET
     @Path("/license/{licenseName}")
     public void getReposByLicense(@Suspended AsyncResponse asyncResp, @PathParam("licenseName") String license) {
-        asyncResp.resume(DTOConvertor.convert(rrepo.getReposByLicense(license)));
+        asyncResp.resume(DTOConvertor.toRepoDtoList(rrepo.getReposByLicense(license)));
     }
 }
