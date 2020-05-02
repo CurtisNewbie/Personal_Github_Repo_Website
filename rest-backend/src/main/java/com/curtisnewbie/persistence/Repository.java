@@ -1,11 +1,13 @@
 package com.curtisnewbie.persistence;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -60,6 +62,9 @@ public class Repository {
     @Embedded
     @Valid
     private License license;
+
+    @OneToMany(mappedBy = "repo", orphanRemoval = true)
+    private List<Comment> comments;
 
     @NotNull
     private String language;
@@ -236,4 +241,17 @@ public class Repository {
         this.language = language;
     }
 
+    /**
+     * @return the comments
+     */
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    /**
+     * @param comments the comments to set
+     */
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 }
