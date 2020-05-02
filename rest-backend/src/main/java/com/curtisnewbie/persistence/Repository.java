@@ -28,10 +28,11 @@ public class Repository {
     private Long id;
 
     @NotNull
-    @Column(name = "repo_name")
+    @Column(name = "repo_name", unique = true)
     private String name;
 
     @NotNull
+    @Column(unique = true)
     private String fullName;
 
     @NotNull
