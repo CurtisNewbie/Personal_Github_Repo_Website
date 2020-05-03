@@ -8,6 +8,7 @@ import { HttpService } from "../http.service";
 })
 export class SelfIntroComponent implements OnInit {
   githubUrl: string = this.http.getGithubUrl();
+  intro: string[] = this.http.getIntroduction();
 
   constructor(private http: HttpService) {}
 
