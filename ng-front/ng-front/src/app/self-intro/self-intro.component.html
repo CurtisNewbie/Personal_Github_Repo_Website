@@ -1,10 +1,12 @@
-<!-- Title -->
-<div class="container-fluid jumbotron text-center">
-    <h1 class="mt-3 mb-3">Yongjie Zhuang</h1>
-    <h2 class="mt-3 mb-3">(CurtisNewbie)</h2>
-    <h3 class="mt-3 mb-3">GitHub: {{githubUrl}}</h3>
-</div>
-<!-- Introduction -->
-<div class="text-center m-5" style="font-size: 2em;">
-    <p *ngFor="let p of intro">{{p}}</p>
+<div class="pagediv">
+    <!-- Title -->
+    <div class="container-fluid jumbotron text-center">
+        <h1 class="mt-3 mb-3">Yongjie Zhuang</h1>
+        <h2 class="mt-3 mb-3">(CurtisNewbie)</h2>
+        <h3 class="mt-3 mb-3">GitHub: {{githubUrl}}</h3>
+    </div>
+    <!-- Introduction -->
+    <div class="text-center mt-5 mb-5 pt-5 pb-5" style="font-size: 2em;">
+        <p *ngFor="let p of intro">{{p}}</p>
+    </div>
 </div>

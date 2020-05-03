@@ -21,8 +21,8 @@ export class HttpService {
    */
   getIntroduction(): string[] {
     return [
-      "A real noob programmer trying to learn as much as possible.",
-      "I love programming! :D",
+      "A noob backend developer trying to learn as much as possible.",
+      "I know Java, JavaScript, TypeScript, and very limited C. :D",
     ];
   }
 }

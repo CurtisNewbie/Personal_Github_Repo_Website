@@ -1,0 +1,24 @@
+<div class="pagediv">
+    <div class="container-fluid jumbotron text-center">
+        <div class="pt-5 pb-5">
+            <h1 class="text-center">My GitHub Repositories</h1>
+        </div>
+    </div>
+    <div class="container pt-5">
+        <!-- listing repositories details -->
+        <div *ngFor="let r of repos">
+            <!-- TODO: fix this UI -->
+            <div class="shadow p-4">
+                <p><strong>Name:</strong> {{r.full_name}}</p>
+                <p><strong>Description:</strong> {{r.description}}</p>
+                <p><strong>Owner:</strong> {{r.owner.login}}</p>
+                <p><strong>Created At:</strong>{{r.created_at}}</p>
+                <p><strong>Updated At:</strong>{{r.updated_at}}</p>
+                <p><strong>Pushed At:</strong>{{r.pushed_at}}</p>
+                <p><strong>Stars:</strong>{{r.stargazers_count}}</p>
+                <p><strong>License:</strong> {{r.license.name}}</p>
+                <p><strong>Language:</strong> {{r.language}}</p>
+            </div>
+        </div>
+    </div>
+</div>

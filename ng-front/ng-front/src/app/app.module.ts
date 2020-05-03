@@ -4,11 +4,13 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SelfIntroComponent } from './self-intro/self-intro.component';
+import { RepoListComponent } from './repo-list/repo-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SelfIntroComponent
+    SelfIntroComponent,
+    RepoListComponent
   ],
   imports: [
     BrowserModule,
