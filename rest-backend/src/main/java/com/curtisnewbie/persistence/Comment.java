@@ -46,7 +46,6 @@ public class Comment {
     @Column(length = 5000)
     private String message;
 
-    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private Date timestamp;

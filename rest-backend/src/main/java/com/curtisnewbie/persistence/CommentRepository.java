@@ -40,6 +40,23 @@ public class CommentRepository {
     }
 
     /**
+     * Add a {@code Comment} that belongs to a {@code Repository}, and which may or
+     * may not be a child (i.e., reply) of a specified parentComment
+     * ({@code parentCommentId})
+     * 
+     * @param msg
+     * @param repositoryId
+     * @param parentCommentId
+     */
+    public void addComment(String msg, Long repositoryId, Long parentCommentId) {
+        Comment c = new Comment();
+        c.setMessage(msg);
+        c.setRepo(em.find(Repository.class, repositoryId));
+        c.setParentComment(parentCommentId == null ? null : em.find(Comment.class, parentCommentId));
+        em.persist(c);
+    }
+
+    /**
      * Remove a {@code Comment}
      * 
      * @param comment

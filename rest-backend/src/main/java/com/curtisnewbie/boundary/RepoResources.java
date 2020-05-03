@@ -5,13 +5,18 @@ import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import com.curtisnewbie.dto.CommentDTO;
 import com.curtisnewbie.persistence.Comment;
@@ -20,6 +25,7 @@ import com.curtisnewbie.persistence.RepoRepository;
 import com.curtisnewbie.util.DTOConvertor;
 
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.jboss.logging.Logger;
 
 /**
  * ------------------------------------
@@ -31,6 +37,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
  * REST endpoints for {@code Repository} resources.
  * </p>
  */
+// TODO: Handle exceptions, may be custom response for these exceptions
 @Path(value = "/github/repo")
 @Produces(MediaType.APPLICATION_JSON)
 @ApplicationScoped
@@ -41,6 +48,8 @@ public class RepoResources {
 
     @Inject
     protected CommentRepository crepo;
+
+    protected Logger logger = Logger.getLogger(this.getClass());
 
     @APIResponse(description = "Get all Repositories")
     @GET
@@ -73,5 +82,17 @@ public class RepoResources {
             dtos.add(DTOConvertor.toDto(p));
         }
         asyncResp.resume(dtos);
+    }
+
+    @APIResponse(description = "Add a comment to a Repository, where a comment can belonsg to another (or as a reply to another). Such comment is a child of another comment (which is considered as a parent comment.")
+    @POST
+    @Path("/{repoId}/comment")
+    public void addCommentToRepo(@Suspended AsyncResponse asyncResp, @NotNull @QueryParam("message") String msg,
+            @NotNull @PathParam("repoId") Long repoId, @QueryParam("parentCommentId") Long parentCommentId) {
+        if (msg.isEmpty()) {
+            throw new WebApplicationException("Illegal Parameter: message cannot be empty");
+        }
+        crepo.addComment(msg, repoId, parentCommentId);
+        asyncResp.resume(Response.ok().build());
     }
 }
