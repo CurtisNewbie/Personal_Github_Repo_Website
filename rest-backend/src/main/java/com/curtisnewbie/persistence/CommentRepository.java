@@ -61,6 +61,8 @@ public class CommentRepository {
      * 
      * @param comment
      */
+    // TODO: Not really realistic without authentication, find a way to achieve
+    // this.
     public void removeComment(Comment comment) {
         em.remove(comment);
     }

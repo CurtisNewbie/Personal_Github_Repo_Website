@@ -50,7 +50,7 @@ public class Comment {
     @CreationTimestamp
     private Date timestamp;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "repo_id", referencedColumnName = "id", nullable = false)
     private Repository repo;
 
@@ -58,7 +58,7 @@ public class Comment {
     @JoinColumn(name = "parent_comment_id", referencedColumnName = "id")
     private Comment parentComment;
 
-    @OneToMany(mappedBy = "parentComment", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "parentComment")
     private List<Comment> childComments;
 
     /**
