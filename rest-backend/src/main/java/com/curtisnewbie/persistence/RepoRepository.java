@@ -32,13 +32,16 @@ public class RepoRepository {
     protected EntityManager em;
 
     /**
-     * Update a {@code Repository} model
+     * Update a {@code Repository} model without lossing its previous associated
+     * {@code Comment}(s).
      * 
      * @param repo
      * @return whether the model is updated in DB
      */
     public boolean updateRepo(Repository repo) {
         try {
+            Repository prevRepo = em.find(Repository.class, repo.getId());
+            repo.setComments(prevRepo == null ? null : prevRepo.getComments());
             em.merge(repo);
             return true;
         } catch (Exception e) {
