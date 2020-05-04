@@ -3,9 +3,10 @@
 
 html {
   word-wrap: break-word;
+  font-size: 1em;
 }
 
 /* Top level div, each represents a page */
 .pagediv {
-  min-height: 100vh;
+  min-height: 115vh;
 }

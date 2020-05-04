@@ -8,14 +8,12 @@
         <!-- listing repositories details -->
         <div *ngFor="let r of repos">
             <!-- TODO: fix this UI -->
-            <div class="shadow p-4">
-                <p><strong>Name:</strong> {{r.full_name}}</p>
+            <div class="shadow p-4 m-3">
+                <h3>{{r.name}} <span class="badge badge-success" *ngIf="isActive(r.updated_at)">ACTIVE</span>
+                </h3>
+                <p><strong>UPDATE:</strong> {{r.updated_at}}</p>
                 <p><strong>Description:</strong> {{r.description}}</p>
-                <p><strong>Owner:</strong> {{r.owner.login}}</p>
-                <p><strong>Created At:</strong>{{r.created_at}}</p>
-                <p><strong>Updated At:</strong>{{r.updated_at}}</p>
-                <p><strong>Pushed At:</strong>{{r.pushed_at}}</p>
-                <p><strong>Stars:</strong>{{r.stargazers_count}}</p>
+                <p><strong>Stars:</strong> {{r.stargazers_count}}</p>
                 <p><strong>License:</strong> {{r.license.name}}</p>
                 <p><strong>Language:</strong> {{r.language}}</p>
             </div>
