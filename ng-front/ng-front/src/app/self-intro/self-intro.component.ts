@@ -31,7 +31,7 @@ export class SelfIntroComponent implements OnInit, AfterViewInit {
         }
         if (charIndex < txt[paraIndex].length) {
           setTimeout(typingHandler, INTERVAL);
-        } else if (paraIndex < numOfPara) {
+        } else if (paraIndex < numOfPara - 1) {
           this.intro[++paraIndex] = "";
           charIndex = 0;
           setTimeout(typingHandler, INTERVAL);
