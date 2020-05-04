@@ -18,7 +18,7 @@ export class RepoListComponent implements OnInit {
 
   ngOnInit() {
     let demoRepos = DEMO_DATA;
-    console.log(demoRepos.length);
+    this.setUpdatedTimeStr(demoRepos);
     this.setIsActive(demoRepos);
     // sort the repo based on activeness first and then time second
     demoRepos.sort((a, b) => {
@@ -58,6 +58,36 @@ export class RepoListComponent implements OnInit {
       } else {
         r.isActive = false;
       }
+    }
+  }
+
+  //TODO: Improve this
+  setUpdatedTimeStr(repos: Repository[]) {
+    let now = new Date();
+    for (let r of repos) {
+      let year, month, day, hour, min, sec;
+      year = month = day = hour = min = sec = null;
+      if (r.updated_at.getFullYear() != now.getFullYear())
+        year = now.getFullYear() - r.updated_at.getFullYear();
+      else if (r.updated_at.getMonth() != now.getMonth())
+        month = now.getMonth() - r.updated_at.getMonth();
+      else if (r.updated_at.getDay() != now.getDay())
+        day = now.getDay() - r.updated_at.getDay();
+      else if (r.updated_at.getHours() != now.getHours())
+        hour = now.getHours() - r.updated_at.getHours();
+      else if (r.updated_at.getMinutes() != now.getMinutes())
+        min = now.getMinutes() - r.updated_at.getMinutes();
+      else if (r.updated_at.getSeconds() != now.getSeconds())
+        sec = now.getSeconds() - r.updated_at.getSeconds();
+      r.updatedTime =
+        "Updated " +
+        (year ? year + " year" + (year > 1 ? "s " : " ") : "") +
+        (month ? month + " month" + (month > 1 ? "s " : " ") : "") +
+        (day ? day + " day" + (day > 1 ? "s " : " ") : "") +
+        (hour ? hour + " hour" + (hour > 1 ? "s " : " ") : "") +
+        (min ? min + " minute" + (min > 1 ? "s " : " ") : "") +
+        (sec ? sec + " second" + (sec > 1 ? "s " : " ") : "") +
+        "ago";
     }
   }
 }
