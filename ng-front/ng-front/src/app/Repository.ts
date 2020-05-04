@@ -11,6 +11,7 @@ export interface Repository {
   description: string;
   created_at: Date;
   updated_at: Date;
+  isActive: boolean;
   pushed_at: Date;
   stargazers_count: number;
   license: License;

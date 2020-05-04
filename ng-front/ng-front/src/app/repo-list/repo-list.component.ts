@@ -16,24 +16,26 @@ export class RepoListComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.setIsActive();
+  }
 
   /**
-   * Check whether the repository is active by checking the date. If the repo is updated
-   * within a month, it's still active.
-   *
-   * @param date
+   * TODO: this should be fixed.
    */
-  isActive(date: Date): boolean {
+  setIsActive() {
     let now = new Date();
-    if (
-      date.getUTCFullYear() == now.getUTCFullYear() &&
-      (date.getUTCMonth() == now.getUTCMonth() ||
-        now.getTime() - date.getTime() < MONTH_IN_MILISEC)
-    ) {
-      return true;
-    } else {
-      return false;
+    for (let r of this.repos) {
+      let date = r.updated_at;
+      if (
+        date.getUTCFullYear() == now.getUTCFullYear() &&
+        (date.getUTCMonth() == now.getUTCMonth() ||
+          now.getTime() - date.getTime() < MONTH_IN_MILISEC)
+      ) {
+        r.isActive = true;
+      } else {
+        r.isActive = false;
+      }
     }
   }
 }

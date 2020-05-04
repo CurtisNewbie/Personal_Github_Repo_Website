@@ -9,7 +9,7 @@
         <div *ngFor="let r of repos">
             <!-- TODO: fix this UI -->
             <div class="shadow p-4 m-3">
-                <h3>{{r.name}} <span class="badge badge-success" *ngIf="isActive(r.updated_at)">ACTIVE</span>
+                <h3>{{r.name}} <span class="badge badge-success" *ngIf="r.isActive">ACTIVE</span>
                 </h3>
                 <p><strong>UPDATE:</strong> {{r.updated_at}}</p>
                 <p><strong>Description:</strong> {{r.description}}</p>
