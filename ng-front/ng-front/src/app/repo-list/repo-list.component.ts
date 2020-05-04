@@ -12,28 +12,42 @@ const MONTH_IN_MILISEC = 1000 * 60 * 60 * 24 * 30;
 })
 export class RepoListComponent implements OnInit {
   // TODO: fix mock data
-  repos: Repository[] = DEMO_DATA;
+  repos: Repository[][] = [];
 
   constructor() {}
 
   ngOnInit() {
-    this.setIsActive();
+    let demoRepos = DEMO_DATA;
+    console.log(demoRepos.length);
+    this.setIsActive(demoRepos);
     // sort the repo based on activeness first and then time second
-    this.repos.sort((a, b) => {
+    demoRepos.sort((a, b) => {
       return (a.isActive && b.isActive) || (!a.isActive && !b.isActive)
         ? b.updated_at.getTime() - a.updated_at.getTime()
         : a.isActive && !b.isActive
         ? -1
         : 1;
     });
+    let i = 0;
+    let j = 0;
+    while (j < demoRepos.length) {
+      // three repo for each row
+      let temp = [];
+      while (j < demoRepos.length && i < 3) {
+        temp.push(demoRepos[j++]);
+        i++;
+      }
+      this.repos.push(temp);
+      i = 0;
+    }
   }
 
   /**
    * TODO: this should be fixed.
    */
-  setIsActive() {
+  setIsActive(repos: Repository[]) {
     let now = new Date();
-    for (let r of this.repos) {
+    for (let r of repos) {
       let date = r.updated_at;
       if (
         date.getUTCFullYear() == now.getUTCFullYear() &&

@@ -10,3 +10,8 @@ html {
 .pagediv {
   min-height: 115vh;
 }
+
+.box {
+  min-height: 100%;
+  min-width: 100%;
+}
