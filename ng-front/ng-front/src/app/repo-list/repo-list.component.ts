@@ -18,6 +18,14 @@ export class RepoListComponent implements OnInit {
 
   ngOnInit() {
     this.setIsActive();
+    // sort the repo based on activeness first and then time second
+    this.repos.sort((a, b) => {
+      return (a.isActive && b.isActive) || (!a.isActive && !b.isActive)
+        ? b.updated_at.getTime() - a.updated_at.getTime()
+        : a.isActive && !b.isActive
+        ? -1
+        : 1;
+    });
   }
 
   /**
