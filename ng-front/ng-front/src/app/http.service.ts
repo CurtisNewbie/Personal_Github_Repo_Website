@@ -8,12 +8,19 @@ export class HttpService {
   constructor() {}
 
   /**
-   * Get the url of the github user
+   * Get the url of the github profile
    */
   getGithubUrl(): string {
     //TODO: fetch from backend
     let str = "https://github.com/curtisnewbie";
     return str;
+  }
+
+  /**
+   * Get the url of the linkedin profile
+   */
+  getLinkedInUrl(): string {
+    return "https://www.linkedin.com/in/yongjie-zhuang/";
   }
 
   /**

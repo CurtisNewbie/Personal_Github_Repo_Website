@@ -5,12 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SelfIntroComponent } from './self-intro/self-intro.component';
 import { RepoListComponent } from './repo-list/repo-list.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SelfIntroComponent,
-    RepoListComponent
+    RepoListComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
