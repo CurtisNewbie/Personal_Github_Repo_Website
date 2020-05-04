@@ -22,7 +22,7 @@ export class HttpService {
   getIntroduction(): string[] {
     return [
       "A noob backend developer trying to learn as much as possible.",
-      "I know Java, JavaScript, TypeScript, and very limited C. :D",
+      "I know Java, JavaScript, TypeScript, and very little C. :D",
     ];
   }
 }
