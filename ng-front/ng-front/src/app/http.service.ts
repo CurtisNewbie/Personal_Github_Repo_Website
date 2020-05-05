@@ -1,11 +1,25 @@
 import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+
+import { HOST } from "src/environments/host";
+import { RepoDTO } from "./Repository";
+
+const BASE_URL = `http://${HOST.hostname}:${HOST.port}/api`;
 
 // TODO: not implemented, mock http service
 @Injectable({
   providedIn: "root",
 })
 export class HttpService {
-  constructor() {}
+  constructor(private http: HttpClient) {}
+
+  /**
+   * Fetch all github repositories from backend server
+   */
+  getAllRepos(): Observable<RepoDTO[]> {
+    return this.http.get<RepoDTO[]>(`${BASE_URL}/github/repo/all`);
+  }
 
   /**
    * Get the url of the github profile
