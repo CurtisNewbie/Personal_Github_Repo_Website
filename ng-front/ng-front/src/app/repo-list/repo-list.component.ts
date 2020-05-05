@@ -61,28 +61,50 @@ export class RepoListComponent implements OnInit {
     }
   }
 
-  //TODO: Improve this
+  /**
+   * Set up Repository.updatedTime to display how long has the repository been udpated.
+   * E.g., 'Updated 2 days ago'.
+   * @param repos
+   */
   setUpdatedTimeStr(repos: Repository[]) {
     let now = new Date();
     for (let r of repos) {
-      let year, month, day, hour, min, sec;
-      year = month = day = hour = min = sec = null;
-      if (r.updated_at.getFullYear() != now.getFullYear())
-        year = now.getFullYear() - r.updated_at.getFullYear();
-      else if (r.updated_at.getMonth() != now.getMonth())
-        month = now.getMonth() - r.updated_at.getMonth();
-      else if (r.updated_at.getDay() != now.getDay())
-        day = now.getDay() - r.updated_at.getDay();
-      else if (r.updated_at.getHours() != now.getHours())
-        hour = now.getHours() - r.updated_at.getHours();
-      else if (r.updated_at.getMinutes() != now.getMinutes())
-        min = now.getMinutes() - r.updated_at.getMinutes();
-      else if (r.updated_at.getSeconds() != now.getSeconds())
-        sec = now.getSeconds() - r.updated_at.getSeconds();
+      let prev = r.updated_at;
+      let year, month, week, day, hour, min, sec;
+      if (prev.getFullYear() != now.getFullYear()) {
+        year = now.getFullYear() - prev.getFullYear();
+      } else if (
+        prev.getMonth() != now.getMonth() ||
+        prev.getDate() != now.getDate()
+      ) {
+        let numOfDays = null;
+        // set up month
+        if (prev.getMonth() != now.getMonth()) {
+          numOfDays =
+            new Date(prev.getFullYear(), prev.getMonth() + 1, 0).getDate() -
+            prev.getDate() +
+            now.getDate();
+          if (numOfDays >= 30) month = now.getMonth() - prev.getMonth();
+        }
+        // set up day if month is not set up
+        if (month == null) {
+          if (numOfDays == null) numOfDays = now.getDate() - prev.getDate();
+
+          if (numOfDays < 7) day = numOfDays;
+          else week = (numOfDays / 7).toFixed(0);
+        }
+      } else if (prev.getHours() != now.getHours()) {
+        hour = now.getHours() - prev.getHours();
+      } else if (prev.getMinutes() != now.getMinutes()) {
+        min = now.getMinutes() - prev.getMinutes();
+      } else if (prev.getSeconds() != now.getSeconds()) {
+        sec = now.getSeconds() - prev.getSeconds();
+      }
       r.updatedTime =
         "Updated " +
         (year ? year + " year" + (year > 1 ? "s " : " ") : "") +
         (month ? month + " month" + (month > 1 ? "s " : " ") : "") +
+        (week ? week + " week" + (week > 1 ? "s " : " ") : "") +
         (day ? day + " day" + (day > 1 ? "s " : " ") : "") +
         (hour ? hour + " hour" + (hour > 1 ? "s " : " ") : "") +
         (min ? min + " minute" + (min > 1 ? "s " : " ") : "") +
