@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit } from "@angular/core";
 import { HttpService } from "../http.service";
 
 const ANIMATION_CHAR_INTERVAL = 50;
+const ANIMATION_PARAGRAPH_INTERVAL = 1200;
 const ANIMATION_INTERVAL = 5000;
 
 @Component({
@@ -38,9 +39,12 @@ export class SelfIntroComponent implements OnInit, AfterViewInit {
         if (charIndex < this.introTxt[paraIndex].length) {
           setTimeout(typingHandler, charInterval);
         } else if (paraIndex < numOfPara - 1) {
+          // next paragraph
           this.intro[++paraIndex] = "";
           charIndex = 0;
-          setTimeout(typingHandler, charInterval);
+          setTimeout(() => {
+            setTimeout(typingHandler, charInterval);
+          }, ANIMATION_PARAGRAPH_INTERVAL);
         } else {
           // reset animation, and do it again
           setTimeout(() => {
