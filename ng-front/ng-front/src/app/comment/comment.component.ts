@@ -54,12 +54,19 @@ export class CommentComponent implements OnInit {
    * Submit comment, which may or may not be a reply
    */
   submit(): void {
-    let notif = `Submitted '${this.message}'`;
-    if (this.replyTo) {
-      notif += ` as a reply to: ${this.replyTo.id}`;
-    }
-    alert(notif);
+    let parentId = this.replyTo ? this.replyTo.id : null;
+    this.http
+      .sendComment({ message: this.message, parentCommentId: parentId })
+      .subscribe({
+        error: (e) => {
+          console.log;
+        },
+        complete: () => {
+          this.fetchComments();
+        },
+      });
     this.message = "";
+    this.replyTo = null;
   }
 
   /**

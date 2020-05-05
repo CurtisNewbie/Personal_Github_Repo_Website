@@ -17,6 +17,11 @@ export interface CommentDTO {
   childComments: CommentDTO[];
 }
 
+export interface PostCommentDTO {
+  message: string;
+  parentCommentId: number;
+}
+
 /**
  * Convert a CommentDTO to a Comment
  * @param dto

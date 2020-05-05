@@ -6,6 +6,7 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -19,11 +20,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.curtisnewbie.dto.CommentDTO;
+import com.curtisnewbie.dto.PostCommentDTO;
 import com.curtisnewbie.persistence.Comment;
 import com.curtisnewbie.persistence.CommentRepository;
 import com.curtisnewbie.util.DTOConvertor;
 
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.jboss.logging.Logger;
 
 /**
  * ------------------------------------
@@ -42,6 +45,8 @@ public class CommentResources {
 
     @Inject
     protected CommentRepository crepo;
+
+    private Logger logger = Logger.getLogger(this.getClass());
 
     @APIResponse(description = "Get all top-level/parent comments, the JSON is more or less like a tree structure, where the child comments can be accessed by traversing the fields 'childComments' in the parent comments.")
     @GET
@@ -70,12 +75,13 @@ public class CommentResources {
 
     @APIResponse(description = "Add a comment, this comment can belong to another comment(as a reply). Such comment is a child of another comment (which is considered as a parent comment.")
     @POST
-    public void addComment(@Suspended AsyncResponse asyncResp, @NotNull @QueryParam("message") String msg,
-            @QueryParam("parentCommentId") Long parentCommentId) {
-        if (msg.isEmpty()) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void addComment(@Suspended AsyncResponse asyncResp, PostCommentDTO dto) {
+        if (dto.message.isEmpty()) {
             throw new WebApplicationException("Illegal Parameter: message cannot be empty");
         }
-        crepo.addComment(msg, parentCommentId);
+        logger.info(dto.message + " " + dto.parentCommentId);
+        crepo.addComment(dto.message, dto.parentCommentId);
         asyncResp.resume(Response.ok().build());
     }
 

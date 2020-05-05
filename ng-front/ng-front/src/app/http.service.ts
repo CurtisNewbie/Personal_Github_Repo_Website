@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 
 import { HOST } from "src/environments/host";
 import { RepoDTO } from "./Repository";
-import { CommentDTO } from "./comment";
+import { CommentDTO, PostCommentDTO } from "./comment";
 
 const BASE_URL = `http://${HOST.hostname}:${HOST.port}/api`;
 
@@ -27,6 +27,14 @@ export class HttpService {
    */
   getAllComments(): Observable<CommentDTO[]> {
     return this.http.get<CommentDTO[]>(`${BASE_URL}/comments/all`);
+  }
+
+  /**
+   * Send a new Comment to backend server
+   * @param commnet
+   */
+  sendComment(comment: PostCommentDTO): Observable<any> {
+    return this.http.post(`${BASE_URL}/comments`, comment);
   }
 
   /**
