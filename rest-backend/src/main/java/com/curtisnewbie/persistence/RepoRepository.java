@@ -32,16 +32,13 @@ public class RepoRepository {
     protected EntityManager em;
 
     /**
-     * Update a {@code Repository} model without lossing its previous associated
-     * {@code Comment}(s).
+     * Update a {@code Repository} model
      * 
      * @param repo
      * @return whether the model is updated in DB
      */
-    public boolean updateRepo(Repository repo) {
+    public boolean updateRepo(@NotNull Repository repo) {
         try {
-            Repository prevRepo = em.find(Repository.class, repo.getId());
-            repo.setComments(prevRepo == null ? null : prevRepo.getComments());
             em.merge(repo);
             return true;
         } catch (Exception e) {
@@ -56,7 +53,7 @@ public class RepoRepository {
      * @param repo
      * @return whether the model is added in DB
      */
-    public boolean addRepo(Repository repo) {
+    public boolean addRepo(@NotNull Repository repo) {
         try {
             em.persist(repo);
             return true;

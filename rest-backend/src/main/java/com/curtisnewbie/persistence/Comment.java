@@ -24,10 +24,9 @@ import org.hibernate.annotations.CreationTimestamp;
  * <p>
  * ------------------------------------
  * <p>
- * Representation of {@code Comment}. {@code Comment}(s) must belong to a
- * {@code Repository}. A {@code Comment} can have reference to another comment,
- * where such association means that a comment is to reply to a specific
- * comment. This can be considered as a tree-like structure.
+ * Representation of {@code Comment}. A {@code Comment} can have reference to
+ * another comment, where such association means that a comment is to reply to a
+ * specific comment. This can be considered as a tree-like structure.
  * <p>
  * With this in mind, we call the top-level {@code Comment}(s) the parent
  * {@code Comment}(s), and the ones below them the child {@code Comment}(s).
@@ -49,10 +48,6 @@ public class Comment {
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private Date timestamp;
-
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    @JoinColumn(name = "repo_id", referencedColumnName = "id", nullable = false)
-    private Repository repo;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "parent_comment_id", referencedColumnName = "id")
@@ -101,20 +96,6 @@ public class Comment {
      */
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
-    }
-
-    /**
-     * @return the repo
-     */
-    public Repository getRepo() {
-        return repo;
-    }
-
-    /**
-     * @param repo the repo to set
-     */
-    public void setRepo(Repository repo) {
-        this.repo = repo;
     }
 
     /**

@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
+import javax.ws.rs.WebApplicationException;
 
 import org.jboss.logging.Logger;
 
@@ -40,18 +41,15 @@ public class CommentRepository {
     }
 
     /**
-     * Add a {@code Comment} that belongs to a {@code Repository}, and which may or
-     * may not be a child (i.e., reply) of a specified parentComment
-     * ({@code parentCommentId})
+     * Add a {@code Comment}, and which may or may not be a child (i.e., reply) of a
+     * specified parentComment ({@code parentCommentId})
      * 
      * @param msg
-     * @param repositoryId
      * @param parentCommentId
      */
-    public void addComment(String msg, Long repositoryId, Long parentCommentId) {
+    public void addComment(String msg, Long parentCommentId) {
         Comment c = new Comment();
         c.setMessage(msg);
-        c.setRepo(em.find(Repository.class, repositoryId));
         c.setParentComment(parentCommentId == null ? null : em.find(Comment.class, parentCommentId));
         em.persist(c);
     }
@@ -68,29 +66,27 @@ public class CommentRepository {
     }
 
     /**
-     * Get all {@code Comment}(s) of a {@code Repository}
+     * Get all child {@code Comment}(s) of a {@code Comment}
      * 
      * @param repositoryId
-     * @return all {@code Comment}(s) of a {@code Repository}
+     * @return all child {@code Comment}(s) of a {@code Comment}
      */
-    public List<Comment> getCommentsOfRepo(long repositoryId) {
-        TypedQuery<Comment> q = em.createQuery("SELECT c FROM Comment c WHERE c.repo.id = :repoId", Comment.class);
-        q.setParameter("repoId", repositoryId);
-        return q.getResultList();
+    public List<Comment> getChildCommentsOf(long commentId) {
+        var p = em.find(Comment.class, commentId);
+        if (p != null)
+            return p.getChildComments();
+        else
+            throw new WebApplicationException("Entity Not Exists");
     }
 
     /**
-     * Get all parent {@code Comment}(s) (i.e., top-level comments) of a
-     * {@code Repository}. Parent {@code Comment} refers to those that do not have a
-     * Parent.
+     * Get all parent {@code Comment}(s) (i.e., top-level comments). Parent
+     * {@code Comment} refers to those that do not have a Parent.
      * 
-     * @param repositoryId
      * @return a list of parent {@code Comment}(s)
      */
-    public List<Comment> getParentCommentsOfRepo(long repositoryId) {
-        TypedQuery<Comment> q = em.createQuery(
-                "SELECT c FROM Comment c WHERE c.repo.id = :repoId AND c.parentComment IS NULL", Comment.class);
-        q.setParameter("repoId", repositoryId);
+    public List<Comment> getAllParentComments() {
+        TypedQuery<Comment> q = em.createQuery("SELECT c FROM Comment c WHERE c.parentComment IS NULL", Comment.class);
         return q.getResultList();
     }
 }
