@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 
 import { HOST } from "src/environments/host";
 import { RepoDTO } from "./Repository";
+import { CommentDTO } from "./comment";
 
 const BASE_URL = `http://${HOST.hostname}:${HOST.port}/api`;
 
@@ -19,6 +20,13 @@ export class HttpService {
    */
   getAllRepos(): Observable<RepoDTO[]> {
     return this.http.get<RepoDTO[]>(`${BASE_URL}/github/repo/all`);
+  }
+
+  /**
+   * Fet all comments from the backend server
+   */
+  getAllComments(): Observable<CommentDTO[]> {
+    return this.http.get<CommentDTO[]>(`${BASE_URL}/comments/all`);
   }
 
   /**

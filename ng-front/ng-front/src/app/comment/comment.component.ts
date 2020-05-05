@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
-import { Comment } from "../comment";
-import { DEMO_COMMENTS } from "../demodata";
+import { Comment, toComments } from "../comment";
+import { HttpService } from "../http.service";
 
 const MAX_MSG_LENGTH = 20;
 
@@ -10,7 +10,7 @@ const MAX_MSG_LENGTH = 20;
   styleUrls: ["./comment.component.css"],
 })
 export class CommentComponent implements OnInit {
-  comments: Comment[] = DEMO_COMMENTS;
+  comments: Comment[];
   replyTo: Comment;
   replyToNotification: string;
   message: string = "";
@@ -18,9 +18,22 @@ export class CommentComponent implements OnInit {
   @ViewChild("commentSection", { static: false })
   commentSectionRef: ElementRef;
 
-  constructor() {}
+  constructor(private http: HttpService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.fetchComments();
+  }
+
+  /** Fetch Comments */
+  private fetchComments(): void {
+    this.http.getAllComments().subscribe({
+      next: (val) => {
+        console.log(val);
+        this.comments = toComments(val);
+      },
+      error: (e) => console.log,
+    });
+  }
 
   /**
    * Set which comment it's replying to

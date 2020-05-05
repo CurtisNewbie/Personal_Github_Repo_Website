@@ -1,5 +1,6 @@
 import { Owner } from "./Owner";
 import { License } from "./License";
+import { toDate } from "./date.util";
 /**
  * Representation of a GitHub Repository
  */
@@ -57,8 +58,4 @@ export function toRepository(dto: RepoDTO): Repository {
     license: dto.license,
     language: dto.language,
   };
-}
-
-function toDate(dateStr: string): Date {
-  return new Date(dateStr.substring(0, dateStr.length - 5));
 }
