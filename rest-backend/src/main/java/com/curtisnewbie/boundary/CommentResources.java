@@ -77,10 +77,9 @@ public class CommentResources {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void addComment(@Suspended AsyncResponse asyncResp, PostCommentDTO dto) {
-        if (dto.message.isEmpty()) {
-            throw new WebApplicationException("Illegal Parameter: message cannot be empty");
+        if (dto.message.isEmpty() || dto.message == null) {
+            throw new WebApplicationException("Illegal Parameter: message empty or null");
         }
-        logger.info(dto.message + " " + dto.parentCommentId);
         crepo.addComment(dto.message, dto.parentCommentId);
         asyncResp.resume(Response.ok().build());
     }

@@ -12,5 +12,5 @@ package com.curtisnewbie.dto;
  */
 public class PostCommentDTO {
     public String message;
-    public long parentCommentId;
+    public Long parentCommentId;
 }
