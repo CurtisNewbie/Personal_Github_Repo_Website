@@ -53,7 +53,7 @@ public class Comment {
     @JoinColumn(name = "parent_comment_id", referencedColumnName = "id")
     private Comment parentComment;
 
-    @OneToMany(mappedBy = "parentComment")
+    @OneToMany(mappedBy = "parentComment", fetch = FetchType.EAGER)
     private List<Comment> childComments;
 
     /**

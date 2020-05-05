@@ -3,16 +3,19 @@ package com.curtisnewbie.boundary;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.curtisnewbie.dto.CommentDTO;
@@ -32,6 +35,9 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
  * REST endpoints for {@code Comment} resources
  * </p>
  */
+@ApplicationScoped
+@Path("/comments")
+@Produces(MediaType.APPLICATION_JSON)
 public class CommentResources {
 
     @Inject
@@ -39,7 +45,7 @@ public class CommentResources {
 
     @APIResponse(description = "Get all top-level/parent comments, the JSON is more or less like a tree structure, where the child comments can be accessed by traversing the fields 'childComments' in the parent comments.")
     @GET
-    @Path("/comments/all")
+    @Path("/all")
     public void getAllComments(@Suspended AsyncResponse asyncResp) {
         List<Comment> parents = crepo.getAllParentComments();
         List<CommentDTO> dtos = new ArrayList<>();
@@ -51,7 +57,7 @@ public class CommentResources {
 
     @APIResponse(description = "Get all top-level/parent comments, the JSON is more or less like a tree structure, where the child comments can be accessed by traversing the fields 'childComments' in the parent comments.")
     @GET
-    @Path("{parentCommentId}/comments")
+    @Path("/parent/{parentCommentId}")
     public void getChildCommentsOf(@Suspended AsyncResponse asyncResp,
             @NotNull @PathParam("parentCommentId") long parentCommentId) {
         List<Comment> parents = crepo.getChildCommentsOf(parentCommentId);
@@ -64,7 +70,6 @@ public class CommentResources {
 
     @APIResponse(description = "Add a comment, this comment can belong to another comment(as a reply). Such comment is a child of another comment (which is considered as a parent comment.")
     @POST
-    @Path("/comment")
     public void addCommentToRepo(@Suspended AsyncResponse asyncResp, @NotNull @QueryParam("message") String msg,
             @QueryParam("parentCommentId") Long parentCommentId) {
         if (msg.isEmpty()) {

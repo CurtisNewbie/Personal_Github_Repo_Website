@@ -28,7 +28,6 @@ export class CommentComponent implements OnInit {
   private fetchComments(): void {
     this.http.getAllComments().subscribe({
       next: (val) => {
-        console.log(val);
         this.comments = toComments(val);
       },
       error: (e) => console.log,
