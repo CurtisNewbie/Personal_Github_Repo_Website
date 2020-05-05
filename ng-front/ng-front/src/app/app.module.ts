@@ -1,12 +1,13 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserModule } from "@angular/platform-browser";
+import { NgModule } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { SelfIntroComponent } from './self-intro/self-intro.component';
-import { RepoListComponent } from './repo-list/repo-list.component';
-import { FooterComponent } from './footer/footer.component';
-import { CommentComponent } from './comment/comment.component';
+import { AppRoutingModule } from "./app-routing.module";
+import { AppComponent } from "./app.component";
+import { SelfIntroComponent } from "./self-intro/self-intro.component";
+import { RepoListComponent } from "./repo-list/repo-list.component";
+import { FooterComponent } from "./footer/footer.component";
+import { CommentComponent } from "./comment/comment.component";
 
 @NgModule({
   declarations: [
@@ -14,13 +15,10 @@ import { CommentComponent } from './comment/comment.component';
     SelfIntroComponent,
     RepoListComponent,
     FooterComponent,
-    CommentComponent
+    CommentComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+  imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

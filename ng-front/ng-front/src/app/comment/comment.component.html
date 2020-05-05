@@ -1,5 +1,5 @@
 <div class="container">
-    <h2>Comments</h2>
+    <h2>Responses</h2>
     <!-- recursive way to display comments -->
     <ul>
         <ng-container *ngTemplateOutlet="recursiveListTmpl; context:{ $implicit: comments }"></ng-container>
@@ -12,6 +12,7 @@
                     <h5>Anonymous</h5>
                     <p><b>At:</b> {{c.timestamp}}</p>
                     <p><b>Comment:</b> {{c.message}}</p>
+                    <button class="btn btn-outline-secondary mb-1" (click)="setReplyTo(c)">Reply</button>
                     <ul *ngIf="c.childComments.length > 0">
                         <ng-container *ngTemplateOutlet="recursiveListTmpl; context:{ $implicit: c.childComments }">
                         </ng-container>
@@ -20,4 +21,20 @@
             </div>
         </div>
     </ng-template>
+
+    <div class="container mt-5" #commentSection>
+        <h2>Make a Comment:</h2>
+        <div class="ml-5 mr-5 mt-3">
+            <h5 class="mb-3" *ngIf="replyTo">{{replyToNotification}}</h5>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Message</span>
+                </div>
+                <input class="form-control" type="text" [(ngModel)]="message">
+            </div>
+            <div class="text-right m-3">
+                <button class="btn btn-outline-secondary" (click)="submit()">Submit</button>
+            </div>
+        </div>
+    </div>
 </div>
