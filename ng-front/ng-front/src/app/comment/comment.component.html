@@ -1,0 +1,23 @@
+<div class="container">
+    <h2>Comments</h2>
+    <!-- recursive way to display comments -->
+    <ul>
+        <ng-container *ngTemplateOutlet="recursiveListTmpl; context:{ $implicit: comments }"></ng-container>
+    </ul>
+    <!-- listOfComments is the context passed to this template -->
+    <ng-template #recursiveListTmpl let-listOfComments>
+        <div *ngFor="let c of listOfComments">
+            <div class="media pt-1">
+                <div class="media-body border-top border-left -border-right rounded p-2">
+                    <h5>Anonymous</h5>
+                    <p><b>At:</b> {{c.timestamp}}</p>
+                    <p><b>Comment:</b> {{c.message}}</p>
+                    <ul *ngIf="c.childComments.length > 0">
+                        <ng-container *ngTemplateOutlet="recursiveListTmpl; context:{ $implicit: c.childComments }">
+                        </ng-container>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>
