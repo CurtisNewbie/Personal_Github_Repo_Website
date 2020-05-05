@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
 import { Repository } from "../Repository";
 import { DEMO_DATA } from "../demodata";
 
@@ -12,7 +12,7 @@ const MONTH_IN_MILISEC = 1000 * 60 * 60 * 24 * 30;
 })
 export class RepoListComponent implements OnInit {
   // TODO: fix mock data
-  repos: Repository[][] = [];
+  repos: Repository[] = [];
 
   constructor() {}
 
@@ -20,26 +20,19 @@ export class RepoListComponent implements OnInit {
     let demoRepos = DEMO_DATA;
     this.setUpdatedTimeStr(demoRepos);
     this.setIsActive(demoRepos);
+    this.sortRepos(demoRepos);
+    this.repos = demoRepos;
+  }
+
+  sortRepos(repos: Repository[]) {
     // sort the repo based on activeness first and then time second
-    demoRepos.sort((a, b) => {
+    repos.sort((a, b) => {
       return (a.isActive && b.isActive) || (!a.isActive && !b.isActive)
         ? b.updated_at.getTime() - a.updated_at.getTime()
         : a.isActive && !b.isActive
         ? -1
         : 1;
     });
-    let i = 0;
-    let j = 0;
-    while (j < demoRepos.length) {
-      // three repo for each row
-      let temp = [];
-      while (j < demoRepos.length && i < 3) {
-        temp.push(demoRepos[j++]);
-        i++;
-      }
-      this.repos.push(temp);
-      i = 0;
-    }
   }
 
   /**

@@ -4,46 +4,17 @@
             <h1 class="text-center">My GitHub Repositories</h1>
         </div>
     </div>
-    <div class="container-fluid pt-5">
+    <div class="container mt-5 mb-5">
         <!-- listing repositories details -->
-        <div *ngFor="let row of repos">
-            <div class="row mb-5">
-                <div class="col">
-                    <!-- TODO: fix this UI -->
-                    <div class="box shadow m-2 p-2" *ngIf="row[0]">
-                        <h4>{{row[0].name}} <span class="badge badge-success" *ngIf="row[0].isActive">ACTIVE</span>
-                        </h4>
-                        <p><strong>UPDATE:</strong> {{row[0].updatedTime}}</p>
-                        <p><strong>Description:</strong> {{row[0].description}}</p>
-                        <p><strong>Stars:</strong> {{row[0].stargazers_count}}</p>
-                        <p><strong>License:</strong> {{row[0].license.name}}</p>
-                        <p><strong>Language:</strong> {{row[0].language}}</p>
-                    </div>
-                </div>
-                <div class="col">
-                    <!-- TODO: fix this UI -->
-                    <div class="box shadow m-2 p-2" *ngIf="row[1]">
-                        <h4>{{row[1].name}} <span class="badge badge-success" *ngIf="row[1].isActive">ACTIVE</span>
-                        </h4>
-                        <p><strong>UPDATE:</strong> {{row[1].updatedTime}}</p>
-                        <p><strong>Description:</strong> {{row[1].description}}</p>
-                        <p><strong>Stars:</strong> {{row[1].stargazers_count}}</p>
-                        <p><strong>License:</strong> {{row[1].license.name}}</p>
-                        <p><strong>Language:</strong> {{row[1].language}}</p>
-                    </div>
-                </div>
-                <div class="col">
-                    <!-- TODO: fix this UI -->
-                    <div class="box shadow m-2 p-2" *ngIf="row[2]">
-                        <h4>{{row[2].name}} <span class="badge badge-success" *ngIf="row[2].isActive">ACTIVE</span>
-                        </h4>
-                        <p><strong>UPDATE:</strong> {{row[2].updatedTime}}</p>
-                        <p><strong>Description:</strong> {{row[2].description}}</p>
-                        <p><strong>Stars:</strong> {{row[2].stargazers_count}}</p>
-                        <p><strong>License:</strong> {{row[2].license.name}}</p>
-                        <p><strong>Language:</strong> {{row[2].language}}</p>
-                    </div>
-                </div>
+        <div *ngFor="let r of repos">
+            <div class="box shadow m-3 p-3" *ngIf="r">
+                <h4>{{r.name}} <span class=" badge badge-success" *ngIf="r.isActive">ACTIVE</span>
+                </h4>
+                <p><strong>UPDATE:</strong> {{r.updatedTime}}</p>
+                <p><strong>Description:</strong> {{r.description}}</p>
+                <p><strong>Stars:</strong> {{r.stargazers_count}}</p>
+                <p><strong>License:</strong> {{r.license.name}}</p>
+                <p><strong>Language:</strong> {{r.language}}</p>
             </div>
         </div>
     </div>
