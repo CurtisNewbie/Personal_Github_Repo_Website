@@ -70,7 +70,7 @@ public class CommentResources {
 
     @APIResponse(description = "Add a comment, this comment can belong to another comment(as a reply). Such comment is a child of another comment (which is considered as a parent comment.")
     @POST
-    public void addCommentToRepo(@Suspended AsyncResponse asyncResp, @NotNull @QueryParam("message") String msg,
+    public void addComment(@Suspended AsyncResponse asyncResp, @NotNull @QueryParam("message") String msg,
             @QueryParam("parentCommentId") Long parentCommentId) {
         if (msg.isEmpty()) {
             throw new WebApplicationException("Illegal Parameter: message cannot be empty");
