@@ -16,7 +16,7 @@
                 <p><strong>UPDATE:</strong> {{r.updatedTime}}</p>
                 <p><strong>Description:</strong> {{r.description}}</p>
                 <p><strong>Stars:</strong> {{r.stargazers_count}}</p>
-                <p><strong>License:</strong> {{r.license.name}}</p>
+                <p><strong>License:</strong> {{r.license != null ? r.license.name : "None"}}</p>
                 <p><strong>Language:</strong> {{r.language}}</p>
             </div>
         </div>

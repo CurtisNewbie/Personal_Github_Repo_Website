@@ -1,11 +1,13 @@
 package com.curtisnewbie.restclient;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
+import com.curtisnewbie.dto.RepoDTO;
 import com.curtisnewbie.persistence.RepoRepository;
 import com.curtisnewbie.persistence.Repository;
 
@@ -37,12 +39,17 @@ public class GithubRepoFetcher {
     @ConfigProperty(name = "config.repo.names")
     protected List<String> repoNames;
 
+    @ConfigProperty(name = "config.repo.username")
+    protected String username;
+
     @Inject
     @RestClient
     protected GithubClient client;
 
     @Inject
     protected RepoRepository rrepo;
+
+    protected List<RepoDTO> cache;
 
     /**
      * Start a new thread on app startup to fetch and update repositories
@@ -63,6 +70,7 @@ public class GithubRepoFetcher {
     protected void scheduledFetch() {
         if (repoNames.size() == 1 && repoNames.get(0).trim().equals("*")) {
             fetchAll();
+            logger.info("Fetching All Repositories.");
         } else {
             for (String repo : repoNames)
                 fetch(repo);
@@ -76,8 +84,11 @@ public class GithubRepoFetcher {
      */
     void fetch(String repoName) {
         // TODO: finish implentation
-        client.fetchRepo("curtisnewbie", repoName).thenAccept((repoDto) -> {
+        client.fetchRepo(username, repoName).thenAccept((repoDto) -> {
             rrepo.updateRepo(new Repository(repoDto));
+        }).whenComplete((input, exception) -> {
+            if (exception != null)
+                logger.error(exception);
         });
     }
 
@@ -86,10 +97,17 @@ public class GithubRepoFetcher {
      */
     void fetchAll() {
         // TODO: finish implentation
-        client.fetchAllRepos("curtisnewbie").thenAccept((list) -> {
-            for (var repoDto : list) {
+        client.fetchAllRepos(username).thenAccept((list) -> {
+            logger.info(list);
+            this.cache = Collections.synchronizedList(list);
+            for (var repoDto : cache) {
+                logger.info(String.format("Fetched %s", repoDto.full_name));
                 rrepo.updateRepo(new Repository(repoDto));
             }
+        }).whenComplete((input, exception) -> {
+            if (exception != null)
+                logger.error(exception);
+            this.cache = null;
         });
     }
 

@@ -41,7 +41,7 @@ public class DTOConvertor {
         d.updated_at = r.getUpdated_at();
         d.pushed_at = r.getPushed_at();
         d.stargazers_count = r.getStargazers_count();
-        d.license = toDto(r.getLicense());
+        d.license = r.getLicense() == null ? null : toDto(r.getLicense());
         d.language = r.getLanguage();
         return d;
     }
@@ -85,9 +85,10 @@ public class DTOConvertor {
         d.message = c.getMessage();
         d.timestamp = c.getTimestamp();
         d.childComments = new ArrayList<>();
-        for (var cc : c.getChildComments()) {
-            d.childComments.add(toDto(cc));
-        }
+        if (c.getChildComments() != null)
+            for (var cc : c.getChildComments()) {
+                d.childComments.add(toDto(cc));
+            }
         return d;
     }
 

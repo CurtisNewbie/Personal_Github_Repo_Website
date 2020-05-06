@@ -40,7 +40,6 @@ public class Repository {
     @Valid
     private Owner owner;
 
-    @NotNull
     @Column(length = 500)
     private String description;
 
@@ -56,7 +55,6 @@ public class Repository {
     @NotNull
     private Integer stargazers_count;
 
-    @NotNull
     @Embedded
     @Valid
     private License license;
@@ -78,7 +76,7 @@ public class Repository {
         this.updated_at = dto.updated_at;
         this.pushed_at = dto.pushed_at;
         this.stargazers_count = dto.stargazers_count;
-        this.license = new License(dto.license);
+        this.license = dto.license == null ? null : new License(dto.license);
         this.language = dto.language;
     }
 

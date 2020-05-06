@@ -19,9 +19,7 @@ import com.curtisnewbie.dto.OwnerDTO;
 public class Owner {
     @NotNull
     private String loginName;
-    @NotNull
     private String avatar_url;
-    @NotNull
     private String html_url;
 
     public Owner() {
