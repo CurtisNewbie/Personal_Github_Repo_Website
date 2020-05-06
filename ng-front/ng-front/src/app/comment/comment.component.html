@@ -6,14 +6,16 @@
     </ul>
     <!-- listOfComments is the context passed to this template -->
     <ng-template #recursiveListTmpl let-listOfComments>
-        <div *ngFor="let c of listOfComments">
+        <div *ngFor="let c of listOfComments; let i = index">
             <div class="media pt-1">
                 <div class="media-body border-top border-left -border-right rounded p-2">
                     <h5>Anonymous</h5>
                     <p><b>At:</b> {{c.timestamp}}</p>
                     <p><b>Comment:</b> {{c.message}}</p>
                     <button class="btn btn-outline-secondary mb-1" (click)="setReplyTo(c)">Reply</button>
-                    <ul *ngIf="c.childComments.length > 0">
+                    <button class="btn btn-outline-secondary ml-2 mb-1" *ngIf="c.childComments.length > 0"
+                        (click)="displayChildComments(c)">...</button>
+                    <ul *ngIf="shouldDisplayChildCommentsOf(c) && c.childComments.length > 0">
                         <ng-container *ngTemplateOutlet="recursiveListTmpl; context:{ $implicit: c.childComments }">
                         </ng-container>
                     </ul>

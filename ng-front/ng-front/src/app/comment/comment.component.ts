@@ -14,6 +14,7 @@ export class CommentComponent implements OnInit {
   replyTo: Comment;
   replyToNotification: string;
   message: string = "";
+  expandedComments: Comment[] = [];
 
   @ViewChild("commentSection", { static: false })
   commentSectionRef: ElementRef;
@@ -32,6 +33,64 @@ export class CommentComponent implements OnInit {
       },
       error: (e) => console.log,
     });
+  }
+
+  /**
+   * This method controls which comments' child comments should be displayed/expanded.
+   *
+   * 1) If the first comment that is expanded, is clicked again, this method resets
+   * all child comments that are expanded.
+   *
+   * 2) If no comments have been expanded yet, it simply expands the one selected.
+   *
+   * 3) It only expands comments that are children of the last expanded.
+   *
+   * 4) If another top level comment is selected to expand, but we already have a set
+   * of comments expanded, this method resets all, and choose this new one to expand instead.
+   * @param parent
+   */
+  displayChildComments(parent: Comment) {
+    if (
+      // hide all if the user is clicking the first comment that is expanded
+      this.expandedComments.length > 0 &&
+      this.expandedComments[0].id == parent.id
+    ) {
+      this.expandedComments = [];
+    } else if (this.expandedComments.length == 0) {
+      // no comment is expanded yet
+      this.expandedComments.push(parent);
+    } else {
+      let prev = this.expandedComments[this.expandedComments.length - 1];
+      // hide comments, if this comment was previously expanded
+      let lastIndex;
+      if ((lastIndex = this.expandedComments.lastIndexOf(parent)) > 0) {
+        this.expandedComments = this.expandedComments.slice(0, lastIndex);
+      } else {
+        // expand it if this comment is the child comment of the last expanded
+        for (let c of prev.childComments)
+          if (c.id == parent.id) {
+            this.expandedComments.push(parent);
+            return;
+          }
+
+        // this is not a child comment, reset all, if it's another top level comments
+        for (let c of this.comments)
+          if (c.id == parent.id) {
+            this.expandedComments = [];
+            this.expandedComments.push(parent);
+          }
+      }
+    }
+  }
+
+  /**
+   * Return whether the child comments of this parent comment should be displayed/expanded
+   * @param parent
+   */
+  shouldDisplayChildCommentsOf(parent: Comment): boolean {
+    let lastIndex = this.expandedComments.lastIndexOf(parent);
+    if (lastIndex >= 0) return true;
+    return false;
   }
 
   /**
