@@ -1,13 +1,11 @@
 package com.curtisnewbie.restclient;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import com.curtisnewbie.dto.RepoDTO;
 import com.curtisnewbie.persistence.RepoRepository;
 import com.curtisnewbie.persistence.Repository;
 
@@ -49,8 +47,6 @@ public class GithubRepoFetcher {
     @Inject
     protected RepoRepository rrepo;
 
-    protected List<RepoDTO> cache;
-
     /**
      * Start a new thread on app startup to fetch and update repositories
      * repeatively in every N minutes.
@@ -83,8 +79,8 @@ public class GithubRepoFetcher {
      * @param repoName
      */
     void fetch(String repoName) {
-        // TODO: finish implentation
-        client.fetchRepo(username, repoName).thenAccept((repoDto) -> {
+        client.fetchRepo(username, repoName).thenAcceptAsync((repoDto) -> {
+            logger.info(String.format("Fetched %s", repoDto.full_name));
             rrepo.updateRepo(new Repository(repoDto));
         }).whenComplete((input, exception) -> {
             if (exception != null)
@@ -96,18 +92,14 @@ public class GithubRepoFetcher {
      * Fetch all repositories that are accessible
      */
     void fetchAll() {
-        // TODO: finish implentation
-        client.fetchAllRepos(username).thenAccept((list) -> {
+        client.fetchAllRepos(username).thenAcceptAsync((list) -> {
             logger.info(list);
-            this.cache = Collections.synchronizedList(list);
-            for (var repoDto : cache) {
+            for (var repoDto : list) {
                 logger.info(String.format("Fetched %s", repoDto.full_name));
-                rrepo.updateRepo(new Repository(repoDto));
             }
         }).whenComplete((input, exception) -> {
             if (exception != null)
                 logger.error(exception);
-            this.cache = null;
         });
     }
 
