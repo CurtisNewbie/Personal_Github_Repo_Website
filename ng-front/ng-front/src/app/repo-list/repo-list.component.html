@@ -5,6 +5,9 @@
         </div>
     </div>
     <div class="container mt-5 mb-5">
+
+        <div *ngIf="!repos" class="alert alert-info">No Repositories Are Found, Server May Be Down</div>
+
         <!-- listing repositories details -->
         <div *ngFor="let r of repos">
             <div class="box shadow m-3 p-3" *ngIf="r">

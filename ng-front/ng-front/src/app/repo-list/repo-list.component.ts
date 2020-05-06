@@ -11,8 +11,7 @@ const MONTH_IN_MILISEC = 1000 * 60 * 60 * 24 * 30;
   styleUrls: ["./repo-list.component.css"],
 })
 export class RepoListComponent implements OnInit {
-  // TODO: fix mock data
-  repos: Repository[] = [];
+  repos: Repository[];
 
   constructor(private http: HttpService) {}
 
