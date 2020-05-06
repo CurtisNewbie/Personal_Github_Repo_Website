@@ -115,7 +115,7 @@ export class CommentComponent implements OnInit {
   submit(): void {
     let parentId = this.replyTo ? this.replyTo.id : null;
     this.http
-      .sendComment({ message: this.message, parentCommentId: parentId })
+      .postComment({ message: this.message, parentCommentId: parentId })
       .subscribe({
         error: (e) => {
           console.log;

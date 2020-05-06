@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from "@angular/core";
-import { HttpService } from "../http.service";
+import { ResourcesService } from "../resources.service";
 
 const ANIMATION_CHAR_INTERVAL = 50;
 const ANIMATION_PARAGRAPH_INTERVAL = 1200;
@@ -11,11 +11,11 @@ const ANIMATION_INTERVAL = 5000;
   styleUrls: ["./self-intro.component.css"],
 })
 export class SelfIntroComponent implements OnInit, AfterViewInit {
-  githubUrl: string = this.http.getGithubUrl();
-  introTxt = this.http.getIntroduction();
+  githubUrl: string = this.resources.getGithubUrl();
+  introTxt = this.resources.getIntroduction();
   intro: string[] = [];
 
-  constructor(private http: HttpService) {}
+  constructor(private resources: ResourcesService) {}
 
   ngOnInit() {}
 

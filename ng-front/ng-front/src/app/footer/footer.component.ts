@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { HttpService } from "../http.service";
+import { ResourcesService } from "../resources.service";
 
 @Component({
   selector: "app-footer",
@@ -7,10 +7,10 @@ import { HttpService } from "../http.service";
   styleUrls: ["./footer.component.css"],
 })
 export class FooterComponent implements OnInit {
-  githubUrl = this.http.getGithubUrl();
-  linkedInUrl = this.http.getLinkedInUrl();
+  githubUrl = this.resources.getGithubUrl();
+  linkedInUrl = this.resources.getLinkedInUrl();
 
-  constructor(private http: HttpService) {}
+  constructor(private resources: ResourcesService) {}
 
   ngOnInit() {}
 }
