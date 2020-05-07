@@ -1,6 +1,8 @@
 package com.curtisnewbie.dto;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * ------------------------------------
@@ -25,4 +27,5 @@ public class RepoDTO {
     public int stargazers_count;
     public LicenseDTO license;
     public String language;
+    public List<LanguageDTO> languages;
 }

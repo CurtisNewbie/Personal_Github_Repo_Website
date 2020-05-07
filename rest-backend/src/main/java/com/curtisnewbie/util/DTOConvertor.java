@@ -1,13 +1,16 @@
 package com.curtisnewbie.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.curtisnewbie.dto.CommentDTO;
+import com.curtisnewbie.dto.LanguageDTO;
 import com.curtisnewbie.dto.LicenseDTO;
 import com.curtisnewbie.dto.OwnerDTO;
 import com.curtisnewbie.dto.RepoDTO;
 import com.curtisnewbie.persistence.Comment;
+import com.curtisnewbie.persistence.Language;
 import com.curtisnewbie.persistence.License;
 import com.curtisnewbie.persistence.Owner;
 import com.curtisnewbie.persistence.Repository;
@@ -43,6 +46,7 @@ public class DTOConvertor {
         d.stargazers_count = r.getStargazers_count();
         d.license = r.getLicense() == null ? null : toDto(r.getLicense());
         d.language = r.getLanguage();
+        d.languages = r.getLanguages() == null ? null : toLangDtoList(r.getLanguages());
         return d;
     }
 
@@ -93,13 +97,39 @@ public class DTOConvertor {
     }
 
     /**
-     * Convert a list of {@code Repository}(s) to a list of {@code RepoDTO}
+     * Convert {@code Language} to {@code LanguageDTO}
      * 
-     * @param list a list of {@code Repository}(s)
+     * @param l
+     * @return
+     */
+    public static LanguageDTO toDto(Language l) {
+        LanguageDTO d = new LanguageDTO();
+        d.name = l.getName();
+        d.loc = l.getLoc();
+        return d;
+    }
+
+    /**
+     * Convert a list of {@code Repository} to a list of {@code RepoDTO}
+     * 
+     * @param list a list of {@code Repository}
      * @return a list of {@code RepoDTO}
      */
     public static List<RepoDTO> toRepoDtoList(List<Repository> list) {
         List<RepoDTO> dtos = new ArrayList<>();
+        for (var t : list)
+            dtos.add(toDto(t));
+        return dtos;
+    }
+
+    /**
+     * Convert a list of {@code Language} to a list of {@code LanguageDTO}
+     * 
+     * @param list a list of {@code Language}
+     * @return a list of {@code LanguageDTO}
+     */
+    public static List<LanguageDTO> toLangDtoList(List<Language> list) {
+        List<LanguageDTO> dtos = new ArrayList<>();
         for (var t : list)
             dtos.add(toDto(t));
         return dtos;

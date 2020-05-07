@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -66,7 +67,7 @@ public class Repository {
 
     /** Languages used in this repository */
     @Valid
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<Language> languages;
 
     public Repository() {
