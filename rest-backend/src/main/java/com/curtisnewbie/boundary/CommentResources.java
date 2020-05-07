@@ -12,7 +12,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
@@ -73,7 +72,7 @@ public class CommentResources {
         asyncResp.resume(dtos);
     }
 
-    @APIResponse(description = "Add a comment, this comment can belong to another comment(as a reply). Such comment is a child of another comment (which is considered as a parent comment.")
+    @APIResponse(description = "Add a comment, this comment can belong to another comment(as a reply). Such comment is considered as a child of another comment when its'parentCommentId is set. If parentCommentId is set to null or left empty, then this comment is treated as a top-level comment, i.e., it's not replying to any comment.")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void addComment(@Suspended AsyncResponse asyncResp, PostCommentDTO dto) {
@@ -83,5 +82,4 @@ public class CommentResources {
         crepo.addComment(dto.message, dto.parentCommentId);
         asyncResp.resume(Response.ok().build());
     }
-
 }
