@@ -93,7 +93,6 @@ public class GithubRepoFetcher {
      */
     void fetchAll() {
         client.fetchAllRepos(username).thenAcceptAsync((list) -> {
-            logger.info(list);
             for (var repoDto : list) {
                 logger.info(String.format("Fetched %s", repoDto.full_name));
             }
