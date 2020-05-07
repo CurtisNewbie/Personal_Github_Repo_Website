@@ -4,7 +4,7 @@ const GITHUB_PROFILE_URL = "https://github.com/curtisnewbie";
 const LINKEDIN_URL = "https://www.linkedin.com/in/yongjie-zhuang/";
 const INTRODUCTION = [
   "A noob backend developer trying to learn as much as possible.",
-  "I use Java, JavaScript, TypeScript, and very little C :D",
+  "I use Java, JavaScript, TypeScript, SQL and very little C :D",
 ];
 /**
  * Class that stores the constant values (resources)
