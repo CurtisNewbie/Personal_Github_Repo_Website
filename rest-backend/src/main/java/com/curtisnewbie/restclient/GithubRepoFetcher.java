@@ -94,6 +94,7 @@ public class GithubRepoFetcher {
     void fetchAll() {
         client.fetchAllRepos(username).thenAcceptAsync((list) -> {
             for (var repoDto : list) {
+                rrepo.updateRepo(new Repository(repoDto));
                 logger.info(String.format("Fetched %s", repoDto.full_name));
             }
         }).whenComplete((input, exception) -> {
