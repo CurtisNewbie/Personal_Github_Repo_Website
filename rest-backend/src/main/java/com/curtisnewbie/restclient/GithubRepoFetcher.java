@@ -1,13 +1,19 @@
 package com.curtisnewbie.restclient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
+import javax.json.bind.Jsonb;
+import javax.json.bind.JsonbBuilder;
+import javax.json.bind.JsonbConfig;
 
 import com.curtisnewbie.persistence.RepoRepository;
 import com.curtisnewbie.persistence.Repository;
+import com.curtisnewbie.util.LanguagesDeserializer;
+import com.curtisnewbie.persistence.Language;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -47,6 +53,9 @@ public class GithubRepoFetcher {
     @Inject
     protected RepoRepository rrepo;
 
+    /** Jsonb using {@code LanguagesDeserializer} */
+    private Jsonb jsonb = JsonbBuilder.create(new JsonbConfig().withDeserializers(new LanguagesDeserializer()));
+
     /**
      * Start a new thread on app startup to fetch and update repositories
      * repeatively in every N minutes.
@@ -66,41 +75,58 @@ public class GithubRepoFetcher {
     protected void scheduledFetch() {
         if (repoNames.size() == 1 && repoNames.get(0).trim().equals("*")) {
             fetchAll();
-            logger.info("Fetching All Repositories.");
         } else {
-            for (String repo : repoNames)
-                fetch(repo);
+            fetch(repoNames);
         }
     }
 
     /**
-     * Fetch one repository
+     * Fetch a list of repository
      * 
      * @param repoName
      */
-    void fetch(String repoName) {
-        client.fetchRepo(username, repoName).thenAcceptAsync((repoDto) -> {
-            logger.info(String.format("Fetched %s", repoDto.full_name));
-            rrepo.updateRepo(new Repository(repoDto));
-        }).whenComplete((input, exception) -> {
-            if (exception != null)
-                logger.error(exception);
-        });
+    private void fetch(List<String> repoNames) {
+        for (String repoName : repoNames) {
+            client.fetchRepo(username, repoName).thenAcceptAsync((repoDto) -> {
+                logger.info(String.format("Fetched %s", repoDto.full_name));
+                var repo = new Repository(repoDto);
+                repo.setLanguages(fetchNParseLanguages(repo.getName()));
+                rrepo.updateRepo(repo);
+            }).whenComplete((input, exception) -> {
+                if (exception != null)
+                    logger.error(exception);
+            });
+        }
     }
 
     /**
      * Fetch all repositories that are accessible
      */
-    void fetchAll() {
+    private void fetchAll() {
         client.fetchAllRepos(username).thenAcceptAsync((list) -> {
             for (var repoDto : list) {
-                rrepo.updateRepo(new Repository(repoDto));
                 logger.info(String.format("Fetched %s", repoDto.full_name));
+                var repo = new Repository(repoDto);
+                repo.setLanguages(fetchNParseLanguages(repo.getName()));
+                rrepo.updateRepo(repo);
             }
         }).whenComplete((input, exception) -> {
             if (exception != null)
                 logger.error(exception);
         });
+    }
+
+    /**
+     * Fetch a list of {@code Language}
+     * 
+     * @param repoName
+     * @return a list of {@code Language}
+     * @see LanguagesDeserializer
+     */
+    private List<Language> fetchNParseLanguages(String repoName) {
+        var langsJsonStr = client.fetchLanguesOfRepo(username, repoName);
+        return jsonb.fromJson(langsJsonStr, new ArrayList<Language>() {
+        }.getClass().getGenericSuperclass());
     }
 
     /**

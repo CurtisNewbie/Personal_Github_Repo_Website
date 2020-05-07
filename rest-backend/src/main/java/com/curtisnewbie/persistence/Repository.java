@@ -1,8 +1,9 @@
 package com.curtisnewbie.persistence;
 
 import java.util.Date;
-
+import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -59,8 +60,14 @@ public class Repository {
     @Valid
     private License license;
 
+    /** Main language in terms of LOC */
     @NotNull
     private String language;
+
+    /** Languages used in this repository */
+    @Valid
+    @ElementCollection
+    private List<Language> languages;
 
     public Repository() {
 
@@ -78,6 +85,7 @@ public class Repository {
         this.stargazers_count = dto.stargazers_count;
         this.license = dto.license == null ? null : new License(dto.license);
         this.language = dto.language;
+        this.languages = null;
     }
 
     /**
@@ -233,4 +241,19 @@ public class Repository {
     public void setLanguage(String language) {
         this.language = language;
     }
+
+    /**
+     * @return the languages
+     */
+    public List<Language> getLanguages() {
+        return languages;
+    }
+
+    /**
+     * @param languages the languages to set
+     */
+    public void setLanguages(List<Language> languages) {
+        this.languages = languages;
+    }
+
 }

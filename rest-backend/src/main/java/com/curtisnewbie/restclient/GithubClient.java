@@ -43,4 +43,9 @@ public interface GithubClient {
     public CompletionStage<RepoDTO> fetchRepo(@PathParam("username") String username,
             @PathParam("repo") String repoName);
 
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/repos/{username}/{repo}/languages")
+    public String fetchLanguesOfRepo(@PathParam("username") String username, @PathParam("repo") String repoName);
 }
