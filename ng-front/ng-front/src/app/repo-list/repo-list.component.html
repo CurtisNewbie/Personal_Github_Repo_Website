@@ -11,13 +11,19 @@
         <!-- listing repositories details -->
         <div *ngFor="let r of repos">
             <div class="box shadow m-3 p-3" *ngIf="r">
-                <h4>{{r.name}} <span class=" badge badge-success" *ngIf="r.isActive">ACTIVE</span>
+                <h4>{{r.name}} <span class="badge badge-success" *ngIf="r.isActive">ACTIVE</span>
                 </h4>
                 <p><strong>UPDATE:</strong> {{r.updatedTime}}</p>
                 <p><strong>Description:</strong> {{r.description}}</p>
                 <p><strong>Stars:</strong> {{r.stargazers_count}}</p>
                 <p><strong>License:</strong> {{r.license != null ? r.license.name : "None"}}</p>
-                <p><strong>Language:</strong> {{r.language}}</p>
+                <p><strong>Most Used Language:</strong> {{r.language}}</p>
+                <p *ngIf="r.languages">
+                    <span *ngFor="let l of r.languages">
+                        <span class="badge badge-info ml-2 mb-2" style="font-size: 1.1em;">{{l.name}}
+                            {{l.percentage | percent:'.0-1'}}</span>
+                    </span>
+                </p>
             </div>
         </div>
     </div>

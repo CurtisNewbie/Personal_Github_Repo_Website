@@ -1,6 +1,7 @@
 import { Owner } from "./Owner";
 import { License } from "./License";
 import { toDate } from "./date.util";
+import { Language, LanguageDTO, toLanguages } from "./Language";
 /**
  * Representation of a GitHub Repository
  */
@@ -12,13 +13,14 @@ export interface Repository {
   description: string;
   created_at: Date;
   updated_at: Date;
-  // how long has the repo been updated (e.g., 1 month ago, 1 day ago, etc.)
+  /** how long has the repo been updated (e.g., 1 month ago, 1 day ago, etc.) */
   updatedTime: string;
   isActive: boolean;
   pushed_at: Date;
   stargazers_count: number;
   license: License;
   language: string;
+  languages: Language[];
 }
 
 export interface RepoDTO {
@@ -29,13 +31,13 @@ export interface RepoDTO {
   description: string;
   created_at: string;
   updated_at: string;
-  // how long has the repo been updated (e.g., 1 month ago, 1 day ago, etc.)
   updatedTime: string;
   isActive: boolean;
   pushed_at: string;
   stargazers_count: number;
   license: License;
   language: string;
+  languages: LanguageDTO[];
 }
 
 /**
@@ -57,5 +59,6 @@ export function toRepository(dto: RepoDTO): Repository {
     stargazers_count: dto.stargazers_count,
     license: dto.license,
     language: dto.language,
+    languages: toLanguages(dto.languages),
   };
 }
