@@ -2,7 +2,6 @@ package com.curtisnewbie.dto;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * ------------------------------------
@@ -20,6 +19,7 @@ public class RepoDTO {
     public String name;
     public String full_name;
     public OwnerDTO owner;
+    public String html_url;
     public String description;
     public Date created_at;
     public Date updated_at;

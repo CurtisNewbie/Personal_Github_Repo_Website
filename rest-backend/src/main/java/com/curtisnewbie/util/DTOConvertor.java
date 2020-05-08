@@ -47,6 +47,7 @@ public class DTOConvertor {
         d.license = r.getLicense() == null ? null : toDto(r.getLicense());
         d.language = r.getLanguage();
         d.languages = r.getLanguages() == null ? null : toLangDtoList(r.getLanguages());
+        d.html_url = r.getUrl();
         return d;
     }
 

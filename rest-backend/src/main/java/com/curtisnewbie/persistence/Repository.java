@@ -37,6 +37,8 @@ public class Repository {
     @Column(unique = true)
     private String fullName;
 
+    private String url;
+
     @NotNull
     @Embedded
     @Valid
@@ -87,6 +89,7 @@ public class Repository {
         this.license = dto.license == null ? null : new License(dto.license);
         this.language = dto.language;
         this.languages = null;
+        this.url = dto.html_url;
     }
 
     /**
@@ -257,4 +260,17 @@ public class Repository {
         this.languages = languages;
     }
 
+    /**
+     * @return the url
+     */
+    public String getUrl() {
+        return url;
+    }
+
+    /**
+     * @param url the url to set
+     */
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }

@@ -10,6 +10,7 @@ export interface Repository {
   name: string;
   full_name: string;
   owner: Owner;
+  html_url: string;
   description: string;
   created_at: Date;
   updated_at: Date;
@@ -28,6 +29,7 @@ export interface RepoDTO {
   name: string;
   full_name: string;
   owner: Owner;
+  html_url: string;
   description: string;
   created_at: string;
   updated_at: string;
@@ -50,6 +52,7 @@ export function toRepository(dto: RepoDTO): Repository {
     name: dto.name,
     full_name: dto.full_name,
     owner: dto.owner,
+    html_url: dto.html_url,
     description: dto.description,
     created_at: toDate(dto.created_at),
     updated_at: toDate(dto.updated_at),
