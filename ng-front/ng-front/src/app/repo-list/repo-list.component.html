@@ -11,7 +11,7 @@
         <!-- listing repositories details -->
         <div *ngFor="let r of repos">
             <div class="box shadow m-3 p-3" *ngIf="r">
-                <h4><a href="{{r.html_url}}" style="text-decoration: none;cursor:pointer;">{{r.name}}</a> <span
+                <h4><a href="{{r.html_url}}" style="text-decoration: none;cursor:pointer;">{{r.name}} </a><span
                         class="badge badge-success" *ngIf="r.isActive">ACTIVE</span>
                 </h4>
                 <p><strong>UPDATE:</strong> {{r.updatedTime}}</p>
